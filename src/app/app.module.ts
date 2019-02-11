@@ -9,6 +9,7 @@ import { MaterialModule } from './material/material.module';
 import { MainComponent } from './main/main.component';
 import { EditModeComponent } from './edit-mode/edit-mode.component';
 import { SelectNewsModeComponent } from './select-news-mode/select-news-mode.component';
+import { HeaderComponent } from './header/header.component';
 
 const appRoutes: Routes = [
   { path: 'edit', component: EditModeComponent },
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
     MainComponent,
     EditModeComponent,
     SelectNewsModeComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
