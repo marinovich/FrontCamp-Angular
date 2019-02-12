@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { articles } from 'src/app/articles';
 
 @Component({
   selector: 'app-select-news-mode',
@@ -6,10 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./select-news-mode.component.scss']
 })
 export class SelectNewsModeComponent implements OnInit {
+  private i: number;
+  public article;
 
-  constructor() { }
+  constructor(public router: ActivatedRoute) { }
 
   ngOnInit() {
+    this.i = +this.router.snapshot.paramMap.get('i');
+    this.article = articles[this.i];
   }
 
 }

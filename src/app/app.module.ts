@@ -10,10 +10,13 @@ import { MainComponent } from './main/main.component';
 import { EditModeComponent } from './edit-mode/edit-mode.component';
 import { SelectNewsModeComponent } from './select-news-mode/select-news-mode.component';
 import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { ArticleComponent } from './article/article.component';
 
 const appRoutes: Routes = [
-  { path: 'edit', component: EditModeComponent },
-  { path: 'select', component: SelectNewsModeComponent },
+  { path: 'add', component: EditModeComponent },
+  { path: 'edit/:i', component: EditModeComponent },
+  { path: 'more/:i', component: SelectNewsModeComponent },
   { path: '', component: MainComponent },
 ];
 
@@ -24,6 +27,8 @@ const appRoutes: Routes = [
     EditModeComponent,
     SelectNewsModeComponent,
     HeaderComponent,
+    FooterComponent,
+    ArticleComponent,
   ],
   imports: [
     BrowserModule,

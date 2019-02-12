@@ -1,0 +1,17 @@
+<li *ngIf="i<4" class="article">
+  <div class="article__info">
+    <div class="article__info-image"></div>
+    <div class="article__info-main">
+      <h4 class="article__info-main-title">{{article.title}}</h4>
+      <p class="article__info-main-description">{{article.description}}</p>
+      <a class="article__info-main-link" [routerLink]="['/more', i]">Read more...</a>
+    </div>
+  </div>
+  <div class="article__nav">
+    <span class="article__nav-date">{{article.publishedAt}}</span>
+    <div class="article__nav-buttons">
+      <button mat-raised-button [routerLink]="['/edit', i]">Edit</button>
+      <button mat-raised-button>Delete</button>
+    </div>
+  </div>
+</li>

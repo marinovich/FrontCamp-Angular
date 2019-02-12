@@ -1,13 +1,9 @@
 .header {
-  display: flex;
-  flex-direction: column;
-
   &__info {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border: 1px #000000 solid;
     border-bottom-width: 0;
     padding: 10px 15px;
   }
@@ -28,9 +24,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #cccccc;
-    border: 1px #000000 solid;
-    border-bottom-width: 0;
     height: 50px;
   }
 
@@ -39,7 +32,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    border: 1px #000000 solid;
     padding: 0 15px;
 
     &-select {

@@ -1,3 +1,42 @@
-<p>
-  edit-mode works!
-</p>
+<div class="edit-container">
+  <div class="edit-container__wrapper">
+    <mat-form-field>
+      <input matInput placeholder="Heading" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Short description">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea rows="11" matInput placeholder="Content"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="edit-container__wrapper">
+    <div class="edit-container__radio-wrapper">
+      <mat-radio-group class="edit-container__radio" formControlName="floatLabel">
+        <mat-radio-button value="always">URL</mat-radio-button>
+        <mat-radio-button value="never">File</mat-radio-button>
+      </mat-radio-group>
+
+      <mat-form-field class="edit-container__radio-input">
+        <input matInput placeholder="Image">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="edit-container__radio-input">
+      <input matInput placeholder="Date">
+    </mat-form-field>
+
+    <mat-form-field class="edit-container__radio-input">
+      <input matInput placeholder="Author">
+    </mat-form-field>
+
+    <mat-form-field class="edit-container__radio-input">
+      <input matInput placeholder="Source URL">
+    </mat-form-field>
+
+    <div class="edit-container__button-block">
+      <button mat-raised-button routerLink="/">Cancel</button>
+      <button mat-raised-button routerLink="/">Save</button>
+    </div>
+  </div>
+</div>
