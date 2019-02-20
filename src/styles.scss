@@ -14,7 +14,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: 100vh;
+  flex-basis: 100%;
+  flex-grow: 0;
   margin: 0;
   font-family: "Helvetica Neue", sans-serif;
 }
@@ -23,5 +24,6 @@ app-root {
   display: flex;
   flex-direction: column;
   width: 800px;
-  min-height: 100vh;
+  flex-basis: 100%;
+  flex-grow: 0;
 }

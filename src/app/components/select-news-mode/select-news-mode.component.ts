@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { articles } from 'src/app/articles';
+import { articles } from 'src/app/mockData/articles';
 
 @Component({
   selector: 'app-select-news-mode',
