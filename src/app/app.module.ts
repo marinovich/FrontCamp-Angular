@@ -16,11 +16,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ArticleComponent } from './components/article/article.component';
 import { NewsFilterPipe } from './pipes/news-filter/news-filter.pipe';
+import { ButtonBlockComponent } from './components/button-block/button-block.component';
 
 const appRoutes: Routes = [
   { path: 'add', component: EditModeComponent },
-  { path: 'edit/:i', component: EditModeComponent },
-  { path: 'more/:i', component: SelectNewsModeComponent },
+  { path: 'edit', component: EditModeComponent },
+  { path: 'more', component: SelectNewsModeComponent },
   { path: '', component: MainComponent, pathMatch: 'full' },
 ];
 
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
     FooterComponent,
     ArticleComponent,
     NewsFilterPipe,
+    ButtonBlockComponent,
   ],
   imports: [
     BrowserModule,

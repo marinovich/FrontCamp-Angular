@@ -1,6 +1,20 @@
 <div class="main">
   <ul class="main__list">
-    <app-article *ngFor="let article of articles | newsFilter: (filter); let i=index" [i]="i" [article]="article"></app-article>
+    <app-article
+      *ngFor="let article of articles | newsFilter: (filter); let i=index"
+      [i]="i"
+      [article]="article"
+      [allowChanges]="this.allowChanges"
+      [maxNumber]="this.maxArticlesNumber"
+    >
+    </app-article>
   </ul>
-  <button *ngIf="!!this.articles.length" mat-raised-button class="main__button">Load More</button>
+  <button
+    *ngIf="this.articles.length > this.maxArticlesNumber"
+    (click)="this.increaseMaxArticlesNumber()"
+    mat-raised-button
+    class="main__button"
+  >
+    Load More
+  </button>
 </div>

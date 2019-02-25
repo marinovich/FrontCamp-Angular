@@ -55,19 +55,19 @@
 
   &__nav {
     height: 100%;
-    flex-shrink: 0;
+    flex: 0 0 150px;
 
-    &-buttons {
+    &-buttons app-button-block {
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-
-      & .mat-raised-button {
-        font-size: 12px;
-        line-height: 20px;
-        font-weight: normal;
-        margin: 3px 0;
-      }
     }
+
+    // app-button-block .mat-raised-button {
+    //   font-size: 12px;
+    //   line-height: 20px;
+    //   font-weight: normal;
+    //   margin: 3px 0;
+    // }
   }
 }

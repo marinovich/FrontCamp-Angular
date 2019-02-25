@@ -8,9 +8,8 @@
     </div>
   </div>
   <div class="article__nav">
-    <div class="article__nav-buttons">
-      <button mat-raised-button routerLink="/">Edit</button>
-      <button mat-raised-button routerLink="/">Delete</button>
+    <div class="article__nav-buttons" *ngIf="this.isNeedToShowButtons">
+      <app-button-block [articleId]="article.id"></app-button-block>
     </div>
   </div>
 </div>

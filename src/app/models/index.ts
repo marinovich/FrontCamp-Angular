@@ -26,14 +26,16 @@ export interface ISource {
 }
 
 export interface IArticle {
+  title: string;
   content: string;
   url: string;
-  publishedAt: string;
+  publishedAt?: string;
   source?: ITopHeadlineSource;
   author?: string;
-  description: string;
-  title?: string;
+  description?: string;
   urlToImage?: string;
+  // only for db news
+  id: string;
 }
 
 interface ITopHeadlineSource {

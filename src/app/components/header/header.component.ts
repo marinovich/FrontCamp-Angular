@@ -3,7 +3,7 @@ import { MatCheckboxChange } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { ISource, IArticle } from 'src/app/models';
-import { NewsApiService } from 'src/app/services/news-api.service';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
   selector: 'app-header',
@@ -14,48 +14,57 @@ export class HeaderComponent implements OnInit {
   private selectedSource: ISource;
   private sources: ISource[];
   private checked: boolean;
-  private previousSource: ISource;
   private data: string;
+  private isLoggedIn = false;
 
   constructor(
     private router: Router,
-    private newsApiService: NewsApiService,
+    private appStateService: AppStateService,
   ) {}
 
   ngOnInit() {
-    this.newsApiService.getSources();
-
-    this.newsApiService.updatedSourcesData.subscribe(
+    this.appStateService.updatedSourcesData.subscribe(
       (sources: ISource[]) => this.sources = sources,
-      (error) => console.error(error),
+      (error: Error) => console.error(error),
     );
+
+    this.appStateService.updateAuthStatus.subscribe(
+      (isLoggedIn: boolean) => this.isLoggedIn = isLoggedIn,
+      (error: Error) => console.error(error),
+    );
+
+    this.appStateService.getSources();
+    this.appStateService.isUserLoggedIn();
+    this.checked = this.appStateService.isShownOnlyLocal();
   }
 
   onChange(source: ISource) {
     this.selectedSource = source;
-    this.newsApiService.updateSelectedSource.emit(source);
+    this.appStateService.updateSelectedSource.emit(source);
   }
 
   addArticle = () => {
-    this.newsApiService.selectLocalNews();
-    this.selectedSource = this.newsApiService.getSelectedSource();
+    this.selectedSource = this.appStateService.getSelectedSource();
   }
 
   toggle = (event: MatCheckboxChange) => {
     this.checked = event.checked;
-
-    if (event.checked) {
-      this.previousSource = this.selectedSource;
-      this.newsApiService.selectLocalNews();
-      this.selectedSource = this.newsApiService.getSelectedSource();
-    } else {
-      this.selectedSource = this.previousSource;
-      this.newsApiService.updateSelectedSource.emit(this.selectedSource);
-    }
+    this.appStateService.toggleLocalNews();
   }
 
   filterArticles = () => {
-    this.newsApiService.applyFilter(this.data);
+    this.appStateService.applyFilter(this.data);
   }
 
+  login = () => {
+    this.appStateService.login();
+  }
+
+  logout = () => {
+    this.appStateService.logout();
+  }
+
+  resetCurrentArticleId = () => {
+    this.appStateService.resetCurrentArticleId();
+  }
 }

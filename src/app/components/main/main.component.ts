@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { IArticle } from 'src/app/models';
-import { NewsApiService } from 'src/app/services/news-api.service';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
   selector: 'app-main',
@@ -11,21 +11,28 @@ import { NewsApiService } from 'src/app/services/news-api.service';
 export class MainComponent implements OnInit {
   public articles: IArticle[] = [];
   private filter: string;
+  private allowChanges: boolean;
+  private maxArticlesNumber = 4;
 
-  constructor(private newsApiService: NewsApiService) { }
+  constructor(private appStateService: AppStateService) { }
 
   ngOnInit(): void {
-    this.newsApiService.updateArticlesData.subscribe(
-      (articles: IArticle[]) => this.articles = articles,
-      (error) => console.error(error),
+    this.appStateService.updateArticlesData.subscribe(
+      (articles: IArticle[]) => {
+        this.articles = articles;
+        this.allowChanges = this.appStateService.isShownOnlyLocal();
+      },
+      (error: Error) => console.error(error),
     );
 
-    this.newsApiService.updateFilter.subscribe(
+    this.appStateService.updateFilter.subscribe(
       (filter: string) => this.filter = filter,
-      (error) => console.error(error),
+      (error: Error) => console.error(error),
     );
 
-    this.newsApiService.getArticles(this.newsApiService.getSelectedSource());
+    this.appStateService.getArticles();
   }
+
+  increaseMaxArticlesNumber = () => this.maxArticlesNumber += 4;
 
 }

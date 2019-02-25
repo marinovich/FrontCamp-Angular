@@ -4,11 +4,13 @@
     <span class="header__logo-text">Aggregator Logo</span>
   </div>
   <div class="header__login">
-    <button mat-raised-button class="header__login-button">Log In</button>
+    <button *ngIf="!this.isLoggedIn" mat-raised-button class="header__login-button" (click)="login()">Log In</button>
+    <button *ngIf="this.isLoggedIn" mat-raised-button class="header__login-button" (click)="logout()">Log Out</button>
   </div>
 </div>
 <mat-toolbar *ngIf="!!this.selectedSource" class="header__caption">
-  <h2>{{this.selectedSource.name}}</h2>
+  <h2 *ngIf="!this.checked && this.router.url !== '/add'">{{this.selectedSource.name}}</h2>
+  <h2 *ngIf="this.checked || this.router.url === '/add'">Local News</h2>
 </mat-toolbar>
 <div *ngIf="this.router.url === '/'" class="header__navigation">
   <mat-select
@@ -26,6 +28,6 @@
     </mat-form-field>
     <button mat-raised-button (click)="filterArticles()">Filter</button>
   </div>
-  <mat-checkbox (change)="toggle($event)">Only created by me</mat-checkbox>
-  <button mat-raised-button routerLink="/add" (click)="addArticle()">Add Article</button>
+  <mat-checkbox (change)="toggle($event)" [checked]="this.checked">Only created by me</mat-checkbox>
+  <button mat-raised-button routerLink="/add" (click)="resetCurrentArticleId()">Add Article</button>
 </div>

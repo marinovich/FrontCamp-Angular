@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import * as md5 from 'md5';
 
 import { IArticle } from 'src/app/models';
-import { NewsApiService } from 'src/app/services/news-api.service';
+import { AppStateService } from 'src/app/services/app-state.service';
 
 @Component({
   selector: 'app-edit-mode',
@@ -10,15 +11,15 @@ import { NewsApiService } from 'src/app/services/news-api.service';
   styleUrls: ['./edit-mode.component.scss']
 })
 export class EditModeComponent implements OnInit {
-  public headingControl: FormControl = new FormControl('');
-  public shortDescriptionControl: FormControl = new FormControl('');
-  public contentControl: FormControl = new FormControl('');
-  public imageSourceControl: FormControl = new FormControl('');
-  public dateControl: FormControl = new FormControl('');
-  public authorControl: FormControl = new FormControl('');
-  public sourceURLControl: FormControl = new FormControl('');
-  public saveButtonControl: FormControl = new FormControl('');
-  public cancelButtonControl: FormControl = new FormControl('');
+  private headingControl: FormControl = new FormControl('');
+  private shortDescriptionControl: FormControl = new FormControl('');
+  private contentControl: FormControl = new FormControl('');
+  private imageSourceControl: FormControl = new FormControl('');
+  private dateControl: FormControl = new FormControl('');
+  private authorControl: FormControl = new FormControl('');
+  private sourceURLControl: FormControl = new FormControl('');
+  private saveButtonControl: FormControl = new FormControl('');
+  private cancelButtonControl: FormControl = new FormControl('');
 
   public userFormGroup: FormGroup = new FormGroup({
     heading: this.headingControl,
@@ -32,23 +33,45 @@ export class EditModeComponent implements OnInit {
     cancelButton: this.cancelButtonControl,
   });
 
-  constructor(private newsApiService: NewsApiService) { }
+  private currentArticle: IArticle;
 
-  ngOnInit() {}
+  constructor(
+    private appStateService: AppStateService,
+  ) { }
+
+  ngOnInit() {
+    this.currentArticle = this.appStateService.getCurrentArticle();
+
+    if (!this.currentArticle) {
+      return;
+    }
+
+    // filling userForm fields
+    this.headingControl.setValue(this.currentArticle.title);
+    this.shortDescriptionControl.setValue(this.currentArticle.description);
+    this.contentControl.setValue(this.currentArticle.content);
+    this.imageSourceControl.setValue(this.currentArticle.urlToImage);
+    this.dateControl.setValue(new Date(this.currentArticle.publishedAt));
+    this.authorControl.setValue(this.currentArticle.author);
+    this.sourceURLControl.setValue(this.currentArticle.url);
+  }
 
   submit = () => {
     const formGroupData: IFormGroup = this.userFormGroup.getRawValue();
     const localArticle: IArticle = {
+      id: md5(formGroupData.heading),
       content: formGroupData.content,
       url: formGroupData.sourceURL,
       author: formGroupData.author,
       description: formGroupData.shortDescription,
-      publishedAt: formGroupData.date.toISOString(),
       title: formGroupData.heading,
       urlToImage: formGroupData.imageSource,
+      ...(formGroupData.date && {publishedAt: formGroupData.date.toISOString() }),
     };
 
-    this.newsApiService.setLocalNews(localArticle);
+    this.currentArticle
+      ? this.appStateService.updateLocalNews(this.currentArticle.id, localArticle)
+      : this.appStateService.setLocalNews(localArticle);
   }
 
 }

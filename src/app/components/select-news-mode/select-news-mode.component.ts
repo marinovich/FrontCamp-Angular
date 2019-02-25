@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { articles } from 'src/app/mockData/articles';
+import { AppStateService } from 'src/app/services/app-state.service';
+import { IArticle } from 'src/app/models';
 
 @Component({
   selector: 'app-select-news-mode',
@@ -9,14 +10,17 @@ import { articles } from 'src/app/mockData/articles';
   styleUrls: ['./select-news-mode.component.scss']
 })
 export class SelectNewsModeComponent implements OnInit {
-  private i: number;
-  public article;
+  private article: IArticle;
+  private isNeedToShowButtons: boolean;
 
-  constructor(public router: ActivatedRoute) { }
+  constructor(
+    public router: ActivatedRoute,
+    private appStateService: AppStateService,
+  ) { }
 
   ngOnInit() {
-    this.i = +this.router.snapshot.paramMap.get('i');
-    this.article = articles[this.i];
+    this.article = this.appStateService.getCurrentArticle();
+    this.isNeedToShowButtons = this.appStateService.isShownOnlyLocal();
   }
 
 }
