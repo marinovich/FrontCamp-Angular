@@ -130,7 +130,7 @@ var appRoutes = [
     { path: 'add', component: _components_edit_mode_edit_mode_component__WEBPACK_IMPORTED_MODULE_12__["EditModeComponent"] },
     { path: 'edit/:i', component: _components_edit_mode_edit_mode_component__WEBPACK_IMPORTED_MODULE_12__["EditModeComponent"] },
     { path: 'more/:i', component: _components_select_news_mode_select_news_mode_component__WEBPACK_IMPORTED_MODULE_13__["SelectNewsModeComponent"] },
-    { path: '', component: _components_main_main_component__WEBPACK_IMPORTED_MODULE_11__["MainComponent"] },
+    { path: '', component: _components_main_main_component__WEBPACK_IMPORTED_MODULE_11__["MainComponent"], pathMatch: 'full' },
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {
