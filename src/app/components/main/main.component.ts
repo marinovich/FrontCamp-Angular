@@ -10,6 +10,7 @@ import { NewsApiService } from 'src/app/services/news-api.service';
 })
 export class MainComponent implements OnInit {
   public articles: IArticle[] = [];
+  private filter: string;
 
   constructor(private newsApiService: NewsApiService) { }
 
@@ -18,6 +19,13 @@ export class MainComponent implements OnInit {
       (articles: IArticle[]) => this.articles = articles,
       (error) => console.error(error),
     );
+
+    this.newsApiService.updateFilter.subscribe(
+      (filter: string) => this.filter = filter,
+      (error) => console.error(error),
+    );
+
+    this.newsApiService.getArticles(this.newsApiService.getSelectedSource());
   }
 
 }

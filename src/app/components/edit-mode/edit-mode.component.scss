@@ -25,15 +25,10 @@
 
   &__radio {
     text-align: right;
-    z-index: 2;
 
     & > * {
       margin-left: 10px;
     }
-  }
-
-  &__radio-input {
-    margin-top: -20px;
   }
 
   &__button-block {

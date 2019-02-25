@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import {
   MatButtonModule,
   MatMenuModule,
@@ -10,6 +9,8 @@ import {
   MatCheckboxModule,
   MatInputModule,
   MatRadioModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 } from '@angular/material';
 
 const modules = [
@@ -22,6 +23,8 @@ const modules = [
   MatCheckboxModule,
   MatInputModule,
   MatRadioModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
 ];
 
 @NgModule({

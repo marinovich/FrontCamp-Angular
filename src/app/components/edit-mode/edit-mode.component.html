@@ -1,42 +1,40 @@
-<div class="edit-container">
-  <div [formGroup]="userFormGroup" class="edit-container__wrapper">
+<div [formGroup]="userFormGroup" class="edit-container">
+  <div class="edit-container__wrapper">
     <mat-form-field>
-      <input matInput placeholder="Heading" required>
+      <input matInput placeholder="Heading" required [formControl]="headingControl">
     </mat-form-field>
     <mat-form-field>
-      <input matInput placeholder="Short description">
+      <input matInput placeholder="Short description" [formControl]="shortDescriptionControl">
     </mat-form-field>
     <mat-form-field>
-      <textarea rows="11" matInput placeholder="Content"></textarea>
+      <textarea rows="11" matInput placeholder="Content" [formControl]="contentControl" required></textarea>
     </mat-form-field>
   </div>
   <div class="edit-container__wrapper">
     <div class="edit-container__radio-wrapper">
-      <mat-radio-group class="edit-container__radio" formControlName="floatLabel">
-        <mat-radio-button value="always">URL</mat-radio-button>
-        <mat-radio-button value="never">File</mat-radio-button>
-      </mat-radio-group>
 
       <mat-form-field class="edit-container__radio-input">
-        <input matInput placeholder="Image">
+        <input matInput placeholder="Image" [formControl]="imageSourceControl">
       </mat-form-field>
     </div>
 
     <mat-form-field class="edit-container__radio-input">
-      <input matInput placeholder="Date">
+      <input matInput [matDatepicker]="myDatepicker" placeholder="Date" [formControl]="dateControl">
+      <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker #myDatepicker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field class="edit-container__radio-input">
-      <input matInput placeholder="Author">
+      <input matInput placeholder="Author" [formControl]="authorControl">
     </mat-form-field>
 
     <mat-form-field class="edit-container__radio-input">
-      <input matInput placeholder="Source URL">
+      <input matInput placeholder="Source URL (https://...)" [formControl]="sourceURLControl" type="url" pattern="https://.*" required>
     </mat-form-field>
 
     <div class="edit-container__button-block">
       <button mat-raised-button routerLink="/">Cancel</button>
-      <button mat-raised-button routerLink="/">Save</button>
+      <button mat-raised-button routerLink="/" (click)="submit()" [disabled]="!this.userFormGroup.valid">Save</button>
     </div>
   </div>
 </div>

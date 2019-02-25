@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Routes, RouterModule } from '@angular/router';
@@ -14,12 +15,13 @@ import { SelectNewsModeComponent } from './components/select-news-mode/select-ne
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { ArticleComponent } from './components/article/article.component';
+import { NewsFilterPipe } from './pipes/news-filter/news-filter.pipe';
 
 const appRoutes: Routes = [
   { path: 'add', component: EditModeComponent },
   { path: 'edit/:i', component: EditModeComponent },
   { path: 'more/:i', component: SelectNewsModeComponent },
-  { path: '', component: MainComponent },
+  { path: '', component: MainComponent, pathMatch: 'full' },
 ];
 
 @NgModule({
@@ -31,6 +33,7 @@ const appRoutes: Routes = [
     HeaderComponent,
     FooterComponent,
     ArticleComponent,
+    NewsFilterPipe,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +43,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    CommonModule,
     RouterModule.forRoot(appRoutes),
   ],
   providers: [],

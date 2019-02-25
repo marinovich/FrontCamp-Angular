@@ -18,37 +18,27 @@ export interface ITopHeadlinesResponse extends IResponse {
 export interface ISource {
   id: string;
   name: string;
-  description: string;
-  url: string;
-  category: string;
-  language: string;
-  country: string;
+  description?: string;
+  url?: string;
+  category?: string;
+  language?: string;
+  country?: string;
 }
 
 export interface IArticle {
-  source: ITopHeadlineSource;
-  author: string;
-  title: string;
-  description: string;
-  url: string;
-  urlToImage: string;
-  publishedAt: string;
   content: string;
+  url: string;
+  publishedAt: string;
+  source?: ITopHeadlineSource;
+  author?: string;
+  description: string;
+  title?: string;
+  urlToImage?: string;
 }
 
 interface ITopHeadlineSource {
   id: string;
   name: string;
-}
-
-export interface IRequestFactoryResult {
-  sources: (params?: Dictionary) => Promise<ISource[]>;
-  topHeadlines: (params?: Dictionary) => Promise<IArticle[]>;
-}
-
-export interface IRequestObject {
-  url: string;
-  params: Dictionary;
 }
 
 export interface Dictionary<T = string> {

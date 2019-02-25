@@ -11,15 +11,21 @@
   <h2>{{this.selectedSource.name}}</h2>
 </mat-toolbar>
 <div *ngIf="this.router.url === '/'" class="header__navigation">
-  <mat-select placeholder="Select" class="header__navigation-select" [ngModel]="selectedSource" (ngModelChange)="onChange($event)">
+  <mat-select
+    placeholder="Select"
+    class="header__navigation-select"
+    [ngModel]="selectedSource"
+    (ngModelChange)="onChange($event)"
+    [disabled]="this.checked"
+  >
     <mat-option *ngFor="let source of sources" [value]="source">{{source.name}}</mat-option>
   </mat-select>
   <div class="header__navigation-input-wrapper">
     <mat-form-field>
-      <input matInput placeholder="Type your text...">
+      <input matInput placeholder="Type your text..." [(ngModel)]="data">
     </mat-form-field>
-    <button mat-raised-button>Filter</button>
+    <button mat-raised-button (click)="filterArticles()">Filter</button>
   </div>
-  <mat-checkbox>Only created by me</mat-checkbox>
-  <button mat-raised-button routerLink="/add">Add Article</button>
+  <mat-checkbox (change)="toggle($event)">Only created by me</mat-checkbox>
+  <button mat-raised-button routerLink="/add" (click)="addArticle()">Add Article</button>
 </div>
