@@ -57,7 +57,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/news-api.service */ "./src/app/services/news-api.service.ts");
+/* harmony import */ var src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/auth.service */ "./src/app/services/auth.service.ts");
+/* harmony import */ var src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/news-api.service */ "./src/app/services/news-api.service.ts");
+
 
 
 
@@ -69,7 +71,7 @@ var AppComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
-            providers: [src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_2__["NewsApiService"]],
+            providers: [src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"], src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_3__["NewsApiService"]],
             styles: [__webpack_require__(/*! ./app.component.scss */ "./src/app/app.component.scss")]
         })
     ], AppComponent);
@@ -389,7 +391,7 @@ var FooterComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header__info\">\n  <div class=\"header__logo\">\n    <span class=\"header__logo-image\"></span>\n    <span class=\"header__logo-text\">Aggregator Logo</span>\n  </div>\n  <div class=\"header__login\">\n    <button mat-raised-button class=\"header__login-button\">Log In</button>\n  </div>\n</div>\n<mat-toolbar *ngIf=\"!!this.selectedSource\" class=\"header__caption\">\n  <h2>{{this.selectedSource.name}}</h2>\n</mat-toolbar>\n<div *ngIf=\"this.router.url === '/'\" class=\"header__navigation\">\n  <mat-select\n    placeholder=\"Select\"\n    class=\"header__navigation-select\"\n    [ngModel]=\"selectedSource\"\n    (ngModelChange)=\"onChange($event)\"\n    [disabled]=\"this.checked\"\n  >\n    <mat-option *ngFor=\"let source of sources\" [value]=\"source\">{{source.name}}</mat-option>\n  </mat-select>\n  <div class=\"header__navigation-input-wrapper\">\n    <mat-form-field>\n      <input matInput placeholder=\"Type your text...\" [(ngModel)]=\"data\">\n    </mat-form-field>\n    <button mat-raised-button (click)=\"filterArticles()\">Filter</button>\n  </div>\n  <mat-checkbox (change)=\"toggle($event)\">Only created by me</mat-checkbox>\n  <button mat-raised-button routerLink=\"/add\" (click)=\"addArticle()\">Add Article</button>\n</div>\n"
+module.exports = "<div class=\"header__info\">\n  <div class=\"header__logo\">\n    <span class=\"header__logo-image\"></span>\n    <span class=\"header__logo-text\">Aggregator Logo</span>\n  </div>\n  <div class=\"header__login\">\n    <button *ngIf=\"!this.isLoggedIn\" mat-raised-button class=\"header__login-button\" (click)=\"login()\">Log In</button>\n    <button *ngIf=\"this.isLoggedIn\" mat-raised-button class=\"header__login-button\" (click)=\"logout()\">Log Out</button>\n  </div>\n</div>\n<mat-toolbar *ngIf=\"!!this.selectedSource\" class=\"header__caption\">\n  <h2>{{this.selectedSource.name}}</h2>\n</mat-toolbar>\n<div *ngIf=\"this.router.url === '/'\" class=\"header__navigation\">\n  <mat-select\n    placeholder=\"Select\"\n    class=\"header__navigation-select\"\n    [ngModel]=\"selectedSource\"\n    (ngModelChange)=\"onChange($event)\"\n    [disabled]=\"this.checked\"\n  >\n    <mat-option *ngFor=\"let source of sources\" [value]=\"source\">{{source.name}}</mat-option>\n  </mat-select>\n  <div class=\"header__navigation-input-wrapper\">\n    <mat-form-field>\n      <input matInput placeholder=\"Type your text...\" [(ngModel)]=\"data\">\n    </mat-form-field>\n    <button mat-raised-button (click)=\"filterArticles()\">Filter</button>\n  </div>\n  <mat-checkbox (change)=\"toggle($event)\">Only created by me</mat-checkbox>\n  <button mat-raised-button routerLink=\"/add\" (click)=\"addArticle()\">Add Article</button>\n</div>\n"
 
 /***/ }),
 
@@ -417,16 +419,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/news-api.service */ "./src/app/services/news-api.service.ts");
+/* harmony import */ var src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/auth.service */ "./src/app/services/auth.service.ts");
+/* harmony import */ var src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/news-api.service */ "./src/app/services/news-api.service.ts");
+
 
 
 
 
 var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(router, newsApiService) {
+    function HeaderComponent(router, newsApiService, authService) {
         var _this = this;
         this.router = router;
         this.newsApiService = newsApiService;
+        this.authService = authService;
+        this.isLoggedIn = false;
         this.addArticle = function () {
             _this.newsApiService.selectLocalNews();
             _this.selectedSource = _this.newsApiService.getSelectedSource();
@@ -446,11 +452,18 @@ var HeaderComponent = /** @class */ (function () {
         this.filterArticles = function () {
             _this.newsApiService.applyFilter(_this.data);
         };
+        this.login = function () {
+            _this.authService.login();
+        };
+        this.logout = function () {
+            _this.authService.logout();
+        };
     }
     HeaderComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.newsApiService.getSources();
         this.newsApiService.updatedSourcesData.subscribe(function (sources) { return _this.sources = sources; }, function (error) { return console.error(error); });
+        this.authService.updateAuthStatus.subscribe(function (isLoggedIn) { return _this.isLoggedIn = isLoggedIn; }, function (error) { return console.error(error); });
     };
     HeaderComponent.prototype.onChange = function (source) {
         this.selectedSource = source;
@@ -463,7 +476,8 @@ var HeaderComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./header.component.scss */ "./src/app/components/header/header.component.scss")]
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_3__["NewsApiService"]])
+            src_app_services_news_api_service__WEBPACK_IMPORTED_MODULE_4__["NewsApiService"],
+            src_app_services_auth_service__WEBPACK_IMPORTED_MODULE_3__["AuthService"]])
     ], HeaderComponent);
     return HeaderComponent;
 }());
@@ -617,7 +631,8 @@ __webpack_require__.r(__webpack_exports__);
 var API_KEY = '7719cc235c3c4a4381f84089ece47f5f';
 var API_VERSION = 'v2';
 var BASE_URL = 'https://newsapi.org';
-var SERVER_URL = 'https://mysterious-peak-89016.herokuapp.com';
+// export const SERVER_URL = 'https://mysterious-peak-89016.herokuapp.com';
+var SERVER_URL = 'http://localhost:5000';
 var CustomErrorType;
 (function (CustomErrorType) {
     CustomErrorType["DEFAULT_ERROR"] = "DEFAULT_ERROR";
@@ -889,6 +904,53 @@ var NewsFilterPipe = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/services/auth.service.ts":
+/*!******************************************!*\
+  !*** ./src/app/services/auth.service.ts ***!
+  \******************************************/
+/*! exports provided: AuthService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthService", function() { return AuthService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var src_app_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/constants */ "./src/app/constants/index.ts");
+
+
+
+
+var AuthService = /** @class */ (function () {
+    function AuthService(http) {
+        var _this = this;
+        this.http = http;
+        this.updateAuthStatus = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+        this.login = function () {
+            _this.http.post(src_app_constants__WEBPACK_IMPORTED_MODULE_3__["SERVER_URL"] + "/login", { username: 'User', password: 'User2019' }).toPromise()
+                .then(function () { return _this.updateAuthStatus.emit(true); })
+                .catch(function (error) { return console.log(error); });
+        };
+        this.logout = function () {
+            _this.http.get(src_app_constants__WEBPACK_IMPORTED_MODULE_3__["SERVER_URL"] + "/logout").toPromise()
+                .then(function () { return _this.updateAuthStatus.emit(false); })
+                .catch(function (error) { return console.log(error); });
+        };
+    }
+    AuthService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root'
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"]])
+    ], AuthService);
+    return AuthService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/services/news-api.service.ts":
 /*!**********************************************!*\
   !*** ./src/app/services/news-api.service.ts ***!
@@ -934,7 +996,16 @@ var NewsApiService = /** @class */ (function () {
                 return;
             }
             if (source.id === 'local') {
-                _this.articlesMap.set(source, _this.localNews);
+                _this.http.get(src_app_constants__WEBPACK_IMPORTED_MODULE_3__["SERVER_URL"] + "/news", { withCredentials: true }).toPromise()
+                    .then(function (response) {
+                    // const { articles } = response;
+                    // this.articlesMap.set(source, articles);
+                    // this.updateArticlesData.emit(articles);
+                })
+                    .catch(function (error) {
+                    console.error(error.error.text);
+                });
+                return;
             }
             _this.articlesMap.has(source)
                 ? _this.updateArticlesData.emit(_this.articlesMap.get(source))
